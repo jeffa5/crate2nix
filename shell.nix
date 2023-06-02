@@ -10,6 +10,7 @@
 #    nix-shell --arg pkgs 'import <nixos> {config = {}; }'
 { pkgs ? import ./nix/nixpkgs.nix { config = { }; }
 , sources ? import ./nix/sources.nix
+, nixpkgs ? sources.nixpkgs
 , dependencies ? pkgs.callPackage ./nix/dependencies.nix { }
 , lib ? pkgs.lib
 }:
@@ -27,7 +28,7 @@ pkgs.mkShell {
       echo "" >&2
     fi
 
-    export NIX_PATH="nixpkgs=${sources.nixpkgs}"
+    export NIX_PATH="nixpkgs=${nixpkgs}"
     export IN_CRATE2NIX_SHELL=1;
   '';
 }
